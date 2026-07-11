@@ -1,0 +1,71 @@
+<app-auth-card title="Crear Cuenta" subtitle="Regístrate para comenzar">
+  @if (error()) {
+    <div class="mb-4 rounded-(--radius) border border-destructive/50 bg-destructive/10 px-4 py-2 text-sm text-destructive">
+      {{ error() }}
+    </div>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+    <div class="grid grid-cols-2 gap-3">
+      <div class="space-y-2">
+        <label class="text-sm font-medium text-foreground" for="nombres">Nombres</label>
+        <input
+          id="nombres"
+          type="text"
+          formControlName="nombres"
+          class="flex h-9 w-full rounded-(--radius) border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+          placeholder="Juan"
+        />
+      </div>
+
+      <div class="space-y-2">
+        <label class="text-sm font-medium text-foreground" for="apellidos">Apellidos</label>
+        <input
+          id="apellidos"
+          type="text"
+          formControlName="apellidos"
+          class="flex h-9 w-full rounded-(--radius) border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+          placeholder="Pérez"
+        />
+      </div>
+    </div>
+
+    <div class="space-y-2">
+      <label class="text-sm font-medium text-foreground" for="email">Correo electrónico</label>
+      <input
+        id="email"
+        type="email"
+        formControlName="email"
+        class="flex h-9 w-full rounded-(--radius) border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+        placeholder="correo@ejemplo.com"
+      />
+    </div>
+
+    <div class="space-y-2">
+      <label class="text-sm font-medium text-foreground" for="password">Contraseña</label>
+      <input
+        id="password"
+        type="password"
+        formControlName="password"
+        class="flex h-9 w-full rounded-(--radius) border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+        placeholder="Mínimo 6 caracteres"
+      />
+    </div>
+
+    <button
+      type="submit"
+      [disabled]="form.invalid || loading()"
+      class="inline-flex h-9 w-full items-center justify-center rounded-(--radius) bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+    >
+      @if (loading()) {
+        <span class="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"></span>
+      }
+      {{ loading() ? 'Registrando...' : 'Crear Cuenta' }}
+    </button>
+  </form>
+
+  <p class="mt-4 text-center text-sm text-muted-foreground">
+    ¿Ya tienes cuenta?
+    <a routerLink="/auth/login" class="font-medium text-primary underline-offset-4 hover:underline">Inicia Sesión</a>
+  </p>
+</app-auth-card>

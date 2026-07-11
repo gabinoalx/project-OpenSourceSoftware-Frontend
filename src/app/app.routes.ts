@@ -1,3 +1,28 @@
 import { Routes } from '@angular/router';
+import { Login } from './features/auth/pages/login/login';
+import { Registrar } from './features/auth/pages/registrar/registrar';
+import { Home } from './features/dashboard/pages/home/home';
+import { DashboardLayout } from './layouts/dashboard-layout/dashboard-layout';
+import { authGuard } from './core/guards/auth-guard';
+import { List } from './features/empleados/pages/list/list';
+import { Create } from './features/empleados/pages/create/create';
+import { Edit } from './features/empleados/pages/edit/edit';
+import { Detail } from './features/empleados/pages/detail/detail';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+  { path: 'auth/login', component: Login },
+  { path: 'auth/registrar', component: Registrar },
+  {
+    path: '',
+    component: DashboardLayout,
+    canActivate: [authGuard],
+    children: [
+      { path: 'dashboard', component: Home },
+      { path: 'empleados', component: List },
+      { path: 'empleados/crear', component: Create },
+      { path: 'empleados/:id', component: Detail },
+      { path: 'empleados/:id/editar', component: Edit },
+      { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+    ],
+  },
+];

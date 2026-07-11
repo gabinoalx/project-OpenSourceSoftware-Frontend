@@ -1,0 +1,126 @@
+<app-page-header title="Editar Empleado" backRoute="/empleados" />
+
+@if (loadingData()) {
+  <div class="flex items-center justify-center py-16">
+    <div class="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
+  </div>
+} @else {
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6">
+    @if (error()) {
+      <div class="rounded-[var(--radius)] border border-destructive/50 bg-destructive/10 px-4 py-2 text-sm text-destructive">{{ error() }}</div>
+    }
+
+    <div class="rounded-[var(--radius)] border border-border bg-card">
+      <div class="border-b border-border px-4 py-3">
+        <h2 class="text-sm font-semibold text-card-foreground">Datos Personales</h2>
+      </div>
+      <div class="grid grid-cols-1 gap-4 p-4 md:grid-cols-3">
+        <div class="space-y-1">
+          <label class="text-sm font-medium text-foreground">DNI</label>
+          <input type="number" formControlName="dni" class="flex h-9 w-full rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" />
+        </div>
+        <div class="space-y-1">
+          <label class="text-sm font-medium text-foreground">Nombres</label>
+          <input type="text" formControlName="nombres" class="flex h-9 w-full rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" />
+        </div>
+        <div class="space-y-1">
+          <label class="text-sm font-medium text-foreground">Apellidos</label>
+          <input type="text" formControlName="apellidos" class="flex h-9 w-full rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" />
+        </div>
+        <div class="space-y-1">
+          <label class="text-sm font-medium text-foreground">Edad</label>
+          <input type="number" formControlName="edad" class="flex h-9 w-full rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" />
+        </div>
+        <div class="space-y-1">
+          <label class="text-sm font-medium text-foreground">Sexo</label>
+          <select formControlName="sexo" class="flex h-9 w-full rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
+            <option value="MASCULINO">Masculino</option>
+            <option value="FEMENINO">Femenino</option>
+          </select>
+        </div>
+        <div class="space-y-1">
+          <label class="text-sm font-medium text-foreground">Fecha de Nacimiento</label>
+          <input type="date" formControlName="fechaNacimiento" class="flex h-9 w-full rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" />
+        </div>
+        <div class="space-y-1">
+          <label class="text-sm font-medium text-foreground">Correo</label>
+          <input type="email" formControlName="correo" class="flex h-9 w-full rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" />
+        </div>
+        <div class="space-y-1">
+          <label class="text-sm font-medium text-foreground">Celular</label>
+          <input type="number" formControlName="celular" class="flex h-9 w-full rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" />
+        </div>
+        <div class="space-y-1">
+          <label class="text-sm font-medium text-foreground">Cargo ID</label>
+          <input type="number" formControlName="cargoId" class="flex h-9 w-full rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" />
+        </div>
+        <div class="space-y-1">
+          <label class="text-sm font-medium text-foreground">Estado</label>
+          <select formControlName="estado" class="flex h-9 w-full rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
+            <option value="ACTIVO">Activo</option>
+            <option value="INACTIVO">Inactivo</option>
+          </select>
+        </div>
+        <div class="flex items-center gap-2 pt-6">
+          <input type="checkbox" formControlName="asegurado" id="asegurado" class="h-4 w-4 rounded border-input text-primary focus:ring-ring" />
+          <label for="asegurado" class="text-sm text-foreground">Asegurado</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounded-[var(--radius)] border border-border bg-card">
+      <div class="border-b border-border px-4 py-3">
+        <h2 class="text-sm font-semibold text-card-foreground">Dirección</h2>
+      </div>
+      <div class="grid grid-cols-1 gap-4 p-4 md:grid-cols-2">
+        <div class="space-y-1">
+          <label class="text-sm font-medium text-foreground">Departamento</label>
+          <input type="text" formControlName="departamento" class="flex h-9 w-full rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" />
+        </div>
+        <div class="space-y-1">
+          <label class="text-sm font-medium text-foreground">Provincia</label>
+          <input type="text" formControlName="provincia" class="flex h-9 w-full rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" />
+        </div>
+        <div class="space-y-1">
+          <label class="text-sm font-medium text-foreground">Distrito</label>
+          <input type="text" formControlName="distrito" class="flex h-9 w-full rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" />
+        </div>
+        <div class="space-y-1">
+          <label class="text-sm font-medium text-foreground">Domicilio</label>
+          <input type="text" formControlName="domicilio" class="flex h-9 w-full rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" />
+        </div>
+      </div>
+    </div>
+
+    <div class="rounded-[var(--radius)] border border-border bg-card">
+      <div class="border-b border-border px-4 py-3">
+        <h2 class="text-sm font-semibold text-card-foreground">Examen Médico</h2>
+      </div>
+      <div class="grid grid-cols-1 gap-4 p-4 md:grid-cols-3">
+        <div class="space-y-1">
+          <label class="text-sm font-medium text-foreground">Fecha</label>
+          <input type="date" formControlName="examenFecha" class="flex h-9 w-full rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" />
+        </div>
+        <div class="space-y-1">
+          <label class="text-sm font-medium text-foreground">Monto Gastado</label>
+          <input type="number" formControlName="examenMonto" class="flex h-9 w-full rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" />
+        </div>
+        <div class="flex items-center gap-2 pt-6">
+          <input type="checkbox" formControlName="examenAlta" id="examenAlta" class="h-4 w-4 rounded border-input text-primary focus:ring-ring" />
+          <label for="examenAlta" class="text-sm text-foreground">Alta</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <button type="submit" [disabled]="form.invalid || loading()"
+        class="inline-flex h-9 items-center justify-center rounded-[var(--radius)] bg-primary px-6 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50">
+        {{ loading() ? 'Guardando...' : 'Actualizar Empleado' }}
+      </button>
+      <a routerLink="/empleados"
+        class="inline-flex h-9 items-center justify-center rounded-[var(--radius)] border border-input bg-background px-6 text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground">
+        Cancelar
+      </a>
+    </div>
+  </form>
+}
