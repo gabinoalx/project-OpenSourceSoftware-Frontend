@@ -1,1 +1,90 @@
-<p>list works!</p>
+<app-page-header
+  title="Documentos"
+  subtitle="Gestión de documentos de empleados"
+  [showAdd]="true"
+  addRoute="/documentos/crear"
+  addLabel="Nuevo Documento"
+/>
+
+@if (loading()) {
+<div class="flex items-center justify-center py-12">
+  <span
+    class="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent"
+  ></span>
+</div>
+} @else {
+<div class="mb-4">
+  <input
+    type="text"
+    [(ngModel)]="query"
+    placeholder="Buscar por empleado o tipo de documento..."
+    class="flex h-9 w-full max-w-sm rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+  />
+</div>
+<div class="overflow-hidden rounded-(--radius) border border-border">
+  <table class="w-full text-sm">
+    <thead>
+      <tr class="border-b border-border bg-muted/50">
+        <th class="px-4 py-3 text-left font-medium text-muted-foreground">#</th>
+        <th class="px-4 py-3 text-left font-medium text-muted-foreground">Empleado</th>
+        <th class="px-4 py-3 text-left font-medium text-muted-foreground">Tipo</th>
+        <th class="px-4 py-3 text-left font-medium text-muted-foreground">URL</th>
+        <th class="px-4 py-3 text-right font-medium text-muted-foreground">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (d of filteredDocumentos(); track d.id) {
+      <tr class="border-b border-border transition-colors hover:bg-muted/30">
+        <td class="px-4 py-3 text-foreground">{{ d.id }}</td>
+        <td class="px-4 py-3 font-medium text-foreground">{{ nombreEmpleado(d.empleadoId) }}</td>
+        <td class="px-4 py-3">
+          <span
+            class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium"
+            [class.bg-blue-100]="d.tipoDocumento === 'MEDICO'"
+            [class.text-blue-700]="d.tipoDocumento === 'MEDICO'"
+            [class.bg-purple-100]="d.tipoDocumento === 'JUDICIAL'"
+            [class.text-purple-700]="d.tipoDocumento === 'JUDICIAL'"
+          >
+            {{ d.tipoDocumento }}
+          </span>
+        </td>
+        <td class="px-4 py-3 text-foreground max-w-[200px] truncate">
+          <a [href]="d.url" target="_blank" class="text-primary underline-offset-2 hover:underline">{{ d.url }}</a>
+        </td>
+        <td class="px-4 py-3 text-right">
+          <div class="flex items-center justify-end gap-1">
+            <a
+              [routerLink]="['/documentos', d.id, 'editar']"
+              class="inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              aria-label="Editar documento"
+            >
+              <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+              </svg>
+            </a>
+            <button
+              (click)="delete(d.id)"
+              class="inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
+              aria-label="Eliminar documento"
+            >
+              <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6" />
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      } @empty {
+      <tr>
+        <td
+          colspan="5"
+          class="px-4 py-12 text-center text-sm text-muted-foreground"
+        >
+          No hay documentos registrados
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
+}

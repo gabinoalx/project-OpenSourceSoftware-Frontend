@@ -1,1 +1,67 @@
-<p>create works!</p>
+<app-page-header title="Nueva Asistencia" backRoute="/asistencias" />
+
+@if (error()) {
+  <div class="mb-4 rounded-[var(--radius)] border border-destructive/50 bg-destructive/10 px-4 py-2 text-sm text-destructive">{{ error() }}</div>
+}
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6">
+  <div class="rounded-[var(--radius)] border border-border p-4">
+    <h2 class="mb-4 text-sm font-semibold text-foreground">Datos de Asistencia</h2>
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <div class="space-y-1">
+        <label class="text-sm font-medium text-foreground">Empleado</label>
+        <select formControlName="empleadoId" class="flex h-9 w-full rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
+          <option [ngValue]="0" disabled>Seleccionar empleado</option>
+          @for (emp of empleados(); track emp.id) {
+            <option [ngValue]="emp.id">{{ emp.nombres }} {{ emp.apellidos }} (DNI: {{ emp.dni }})</option>
+          }
+        </select>
+      </div>
+      <div class="space-y-1">
+        <label class="text-sm font-medium text-foreground">Semana</label>
+        <select formControlName="semanaId" class="flex h-9 w-full rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
+          <option [ngValue]="0" disabled>Seleccionar semana</option>
+          @for (s of semanas(); track s.id) {
+            <option [ngValue]="s.id">Semana #{{ s.numeroSemana }} — {{ s.fechaInicio }} al {{ s.fechaFin }}</option>
+          }
+        </select>
+      </div>
+      <div class="space-y-1">
+        <label class="text-sm font-medium text-foreground">Fecha</label>
+        <input type="date" formControlName="fecha" class="flex h-9 w-full rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" />
+      </div>
+      <div class="space-y-1">
+        <label class="text-sm font-medium text-foreground">Estado</label>
+        <select formControlName="estado" class="flex h-9 w-full rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
+          <option value="PRESENTE">Presente</option>
+          <option value="AUSENTE">Ausente</option>
+          <option value="TARDE">Tarde</option>
+          <option value="JUSTIFICADO">Justificado</option>
+        </select>
+      </div>
+      <div class="space-y-1">
+        <label class="text-sm font-medium text-foreground">Minutos Extras</label>
+        <input type="number" formControlName="minutosExtras" class="flex h-9 w-full rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" />
+      </div>
+      <div class="space-y-1">
+        <label class="text-sm font-medium text-foreground">Minutos Atraso</label>
+        <input type="number" formControlName="minutosAtrasadas" class="flex h-9 w-full rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" />
+      </div>
+      <div class="space-y-1 md:col-span-3">
+        <label class="text-sm font-medium text-foreground">Observaciones</label>
+        <textarea formControlName="observaciones" rows="3" class="flex w-full rounded-[var(--radius)] border border-input bg-background px-3 py-2 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex items-center gap-3">
+    <button type="submit" [disabled]="form.invalid || loading()"
+      class="inline-flex h-9 items-center justify-center rounded-[var(--radius)] bg-primary px-6 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50">
+      {{ loading() ? 'Guardando...' : 'Crear Asistencia' }}
+    </button>
+    <a routerLink="/asistencias"
+      class="inline-flex h-9 items-center justify-center rounded-[var(--radius)] border border-input bg-background px-6 text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground">
+      Cancelar
+    </a>
+  </div>
+</form>

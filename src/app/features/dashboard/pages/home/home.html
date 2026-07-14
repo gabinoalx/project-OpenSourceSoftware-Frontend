@@ -1,1 +1,114 @@
-<p>home works!</p>
+<div class="space-y-6">
+  <div>
+    <h1 class="text-xl font-semibold text-foreground">Dashboard</h1>
+    <p class="mt-1 text-sm text-muted-foreground">Resumen general del sistema</p>
+  </div>
+
+  @if (loading()) {
+    <div class="flex items-center justify-center py-16">
+      <div class="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
+    </div>
+  } @else {
+    <!-- Stats Cards Row -->
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <!-- Total Empleados -->
+      <div class="rounded-[var(--radius)] border border-border bg-card p-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-muted-foreground">Total Empleados</p>
+            <p class="mt-1 text-2xl font-bold text-card-foreground">{{ totalEmpleados() }}</p>
+          </div>
+          <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </span>
+        </div>
+        <p class="mt-2 text-xs text-muted-foreground">
+          {{ empleadosActivos() }} activos
+        </p>
+      </div>
+
+      <!-- Semana Actual -->
+      <div class="rounded-[var(--radius)] border border-border bg-card p-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-muted-foreground">Semana Actual</p>
+            <p class="mt-1 text-2xl font-bold text-card-foreground">
+              {{ semanaActual()?.numeroSemana ?? '—' }}
+            </p>
+          </div>
+          <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+          </span>
+        </div>
+        @if (semanaActual(); as s) {
+          <p class="mt-2 text-xs text-muted-foreground">
+            {{ s.fechaInicio }} — {{ s.fechaFin }}
+          </p>
+        } @else {
+          <p class="mt-2 text-xs text-muted-foreground">Sin semana activa</p>
+        }
+      </div>
+
+      <!-- Total Turnos -->
+      <div class="rounded-[var(--radius)] border border-border bg-card p-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-muted-foreground">Total Turnos</p>
+            <p class="mt-1 text-2xl font-bold text-card-foreground">{{ totalTurnos() }}</p>
+          </div>
+          <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-green-50 text-green-600">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </span>
+        </div>
+        <p class="mt-2 text-xs text-muted-foreground">
+          turnos registrados
+        </p>
+      </div>
+
+      <!-- Próxima Semana -->
+      <div class="rounded-[var(--radius)] border border-border bg-card p-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-muted-foreground">Próxima Semana</p>
+            <p class="mt-1 text-2xl font-bold text-card-foreground">
+              {{ proximaSemana()?.numeroSemana ?? '—' }}
+            </p>
+          </div>
+          <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-50 text-purple-600">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></svg>
+          </span>
+        </div>
+        @if (proximaSemana(); as s) {
+          <p class="mt-2 text-xs text-muted-foreground">
+            {{ s.fechaInicio }} — {{ s.fechaFin }}
+          </p>
+        } @else {
+          <p class="mt-2 text-xs text-muted-foreground">Sin semana próxima</p>
+        }
+      </div>
+    </div>
+
+    <!-- Bottom Section: Resumen de Empleados -->
+    <div>
+      <div class="rounded-[var(--radius)] border border-border bg-card">
+        <div class="border-b border-border px-4 py-3">
+          <h2 class="text-sm font-semibold text-card-foreground">Resumen de Empleados</h2>
+        </div>
+        <div class="divide-y divide-border">
+          <div class="flex items-center justify-between px-4 py-3">
+            <span class="text-sm text-muted-foreground">Total registrados</span>
+            <span class="text-sm font-semibold text-card-foreground">{{ totalEmpleados() }}</span>
+          </div>
+          <div class="flex items-center justify-between px-4 py-3">
+            <span class="text-sm text-muted-foreground">Activos</span>
+            <span class="text-sm font-semibold text-card-foreground">{{ empleadosActivos() }}</span>
+          </div>
+          <div class="flex items-center justify-between px-4 py-3">
+            <span class="text-sm text-muted-foreground">Inactivos</span>
+            <span class="text-sm font-semibold text-card-foreground">{{ totalEmpleados() - empleadosActivos() }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

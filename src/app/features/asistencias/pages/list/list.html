@@ -1,1 +1,98 @@
-<p>list works!</p>
+<app-page-header
+  title="Asistencias"
+  subtitle="Gestión de asistencias"
+  [showAdd]="true"
+  addRoute="/asistencias/crear"
+  addLabel="Nueva Asistencia"
+/>
+
+@if (loading()) {
+<div class="flex items-center justify-center py-12">
+  <span
+    class="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent"
+  ></span>
+</div>
+} @else {
+<div class="mb-4">
+  <input
+    type="text"
+    [(ngModel)]="query"
+    placeholder="Buscar por empleado, fecha, estado u observaciones..."
+    class="flex h-9 w-full max-w-sm rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+  />
+</div>
+<div class="overflow-hidden rounded-(--radius) border border-border">
+  <table class="w-full text-sm">
+    <thead>
+      <tr class="border-b border-border bg-muted/50">
+        <th class="px-4 py-3 text-left font-medium text-muted-foreground">#</th>
+        <th class="px-4 py-3 text-left font-medium text-muted-foreground">Empleado</th>
+        <th class="px-4 py-3 text-left font-medium text-muted-foreground">Fecha</th>
+        <th class="px-4 py-3 text-left font-medium text-muted-foreground">Estado</th>
+        <th class="px-4 py-3 text-left font-medium text-muted-foreground">Min. Extras</th>
+        <th class="px-4 py-3 text-left font-medium text-muted-foreground">Min. Atraso</th>
+        <th class="px-4 py-3 text-left font-medium text-muted-foreground">Observaciones</th>
+        <th class="px-4 py-3 text-right font-medium text-muted-foreground">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (a of filteredAsistencias(); track a.id) {
+      <tr class="border-b border-border transition-colors hover:bg-muted/30">
+        <td class="px-4 py-3 text-foreground">{{ a.id }}</td>
+        <td class="px-4 py-3 font-medium text-foreground">{{ nombreEmpleado(a.empleadoId) }}</td>
+        <td class="px-4 py-3 text-foreground">{{ a.fecha }}</td>
+        <td class="px-4 py-3">
+          <span
+            class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium"
+            [class.bg-green-100]="a.estado === 'PRESENTE'"
+            [class.text-green-700]="a.estado === 'PRESENTE'"
+            [class.bg-red-100]="a.estado === 'AUSENTE'"
+            [class.text-red-700]="a.estado === 'AUSENTE'"
+            [class.bg-yellow-100]="a.estado === 'TARDE'"
+            [class.text-yellow-700]="a.estado === 'TARDE'"
+            [class.bg-blue-100]="a.estado === 'JUSTIFICADO'"
+            [class.text-blue-700]="a.estado === 'JUSTIFICADO'"
+          >
+            {{ a.estado }}
+          </span>
+        </td>
+        <td class="px-4 py-3 text-foreground">{{ a.minutosExtras ?? '—' }}</td>
+        <td class="px-4 py-3 text-foreground">{{ a.minutosAtrasadas ?? '—' }}</td>
+        <td class="px-4 py-3 text-foreground max-w-[180px] truncate">{{ a.observaciones ?? '—' }}</td>
+        <td class="px-4 py-3 text-right">
+          <div class="flex items-center justify-end gap-1">
+            <a
+              [routerLink]="['/asistencias', a.id, 'editar']"
+              class="inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              aria-label="Editar asistencia"
+            >
+              <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+              </svg>
+            </a>
+            <button
+              (click)="delete(a.id)"
+              class="inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
+              aria-label="Eliminar asistencia"
+            >
+              <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6" />
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      } @empty {
+      <tr>
+        <td
+          colspan="8"
+          class="px-4 py-12 text-center text-sm text-muted-foreground"
+        >
+          No hay asistencias registradas
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
+}

@@ -1,6 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { DatePipe } from '@angular/common';
 import { EmpleadoService } from '../../services/empleado';
 import { Empleado } from '../../models/empleado.model';
 import { PageHeader } from '../../../../shared/components/page-header/page-header';
@@ -8,7 +7,7 @@ import { PageHeader } from '../../../../shared/components/page-header/page-heade
 @Component({
   selector: 'app-empleado-detail',
   standalone: true,
-  imports: [RouterLink, DatePipe, PageHeader],
+  imports: [RouterLink, PageHeader],
   templateUrl: './detail.html',
 })
 export class Detail {

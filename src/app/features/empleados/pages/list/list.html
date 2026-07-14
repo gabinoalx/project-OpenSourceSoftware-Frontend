@@ -13,6 +13,14 @@
   ></span>
 </div>
 } @else {
+<div class="mb-4">
+  <input
+    type="text"
+    [(ngModel)]="query"
+    placeholder="Buscar por DNI, nombres, apellidos o correo..."
+    class="flex h-9 w-full max-w-sm rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+  />
+</div>
 <div class="overflow-hidden rounded-(--radius) border border-border">
   <table class="w-full text-sm">
     <thead>
@@ -38,7 +46,7 @@
       </tr>
     </thead>
     <tbody>
-      @for (emp of empleados(); track emp.id) {
+      @for (emp of filteredEmpleados(); track emp.id) {
       <tr class="border-b border-border transition-colors hover:bg-muted/30">
         <td class="px-4 py-3 text-foreground">{{ emp.dni }}</td>
         <td class="px-4 py-3 font-medium text-foreground">{{ emp.nombres }}</td>
@@ -59,21 +67,31 @@
           <div class="flex items-center justify-end gap-1">
             <a
               [routerLink]="['/empleados', emp.id]"
-              class="inline-flex h-8 items-center rounded-(--radius) px-3 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              class="inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              aria-label="Ver empleado"
             >
-              Ver
+              <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
             </a>
             <a
               [routerLink]="['/empleados', emp.id, 'editar']"
-              class="inline-flex h-8 items-center rounded-(--radius) px-3 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              class="inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              aria-label="Editar empleado"
             >
-              Editar
+              <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+              </svg>
             </a>
             <button
               (click)="delete(emp.id)"
-              class="inline-flex h-8 items-center rounded-(--radius) px-3 text-xs font-medium text-destructive transition-colors hover:bg-destructive/10"
+              class="inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
+              aria-label="Eliminar empleado"
             >
-              Eliminar
+              <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6" />
+              </svg>
             </button>
           </div>
         </td>

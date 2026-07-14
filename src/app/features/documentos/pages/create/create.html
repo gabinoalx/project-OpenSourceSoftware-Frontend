@@ -1,1 +1,51 @@
-<p>create works!</p>
+<app-page-header title="Nuevo Documento" backRoute="/documentos" />
+
+@if (error()) {
+  <div class="mb-4 rounded-[var(--radius)] border border-destructive/50 bg-destructive/10 px-4 py-2 text-sm text-destructive">{{ error() }}</div>
+}
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6">
+  <div class="rounded-[var(--radius)] border border-border p-4">
+    <h2 class="mb-4 text-sm font-semibold text-foreground">Datos del Documento</h2>
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div class="space-y-1">
+        <label class="text-sm font-medium text-foreground">Empleado</label>
+        <select formControlName="empleadoId" class="flex h-9 w-full rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
+          <option [ngValue]="0" disabled>Seleccionar empleado</option>
+          @for (emp of empleados(); track emp.id) {
+            <option [ngValue]="emp.id">{{ emp.nombres }} {{ emp.apellidos }} (DNI: {{ emp.dni }})</option>
+          }
+        </select>
+      </div>
+      <div class="space-y-1">
+        <label class="text-sm font-medium text-foreground">Tipo de Documento</label>
+        <select formControlName="tipoDocumento" class="flex h-9 w-full rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
+          <option value="MEDICO">Médico</option>
+          <option value="JUDICIAL">Judicial</option>
+        </select>
+      </div>
+      <div class="space-y-1 md:col-span-2">
+        <label class="text-sm font-medium text-foreground">Archivo</label>
+        <input
+          type="file"
+          (change)="onFileChange($event)"
+          class="flex h-9 w-full rounded-[var(--radius)] border border-input bg-background px-3 text-sm shadow-sm transition-colors file:mr-2 file:rounded file:border-0 file:bg-primary/10 file:px-2 file:py-0.5 file:text-xs file:font-medium file:text-primary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+        />
+        @if (selectedFile()) {
+          <p class="mt-1 text-xs text-muted-foreground">{{ selectedFile()!.name }}</p>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="flex items-center gap-3">
+    <button type="submit" [disabled]="form.invalid || !selectedFile() || loading()"
+      class="inline-flex h-9 items-center justify-center rounded-[var(--radius)] bg-primary px-6 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50">
+      {{ loading() ? 'Subiendo...' : 'Crear Documento' }}
+    </button>
+    <a routerLink="/documentos"
+      class="inline-flex h-9 items-center justify-center rounded-[var(--radius)] border border-input bg-background px-6 text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground">
+      Cancelar
+    </a>
+  </div>
+</form>

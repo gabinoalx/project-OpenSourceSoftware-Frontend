@@ -16,13 +16,13 @@ import { RouterLink } from '@angular/router';
       <div class="flex items-center gap-2">
         @if (backRoute()) {
           <a [routerLink]="backRoute()"
-             class="inline-flex h-9 items-center justify-center rounded-(--radius) border border-input bg-background px-4 text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground">
+             class="inline-flex h-9 items-center justify-center rounded-lg border border-input bg-background px-4 text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground">
             Volver
           </a>
         }
         @if (showAdd()) {
           <a [routerLink]="addRoute()"
-             class="inline-flex h-9 items-center justify-center rounded-(--radius) bg-primary px-4 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90">
+             class="inline-flex h-9 items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90">
             {{ addLabel() }}
           </a>
         }

@@ -14,6 +14,12 @@ import { Detail as DetailPlanilla } from "./features/planillas/pages/detail/deta
 import { Create } from "./features/empleados/pages/create/create";
 import { Edit } from "./features/empleados/pages/edit/edit";
 import { Detail } from "./features/empleados/pages/detail/detail";
+import { List as ListAsistencias } from "./features/asistencias/pages/list/list";
+import { Create as CreateAsistencia } from "./features/asistencias/pages/create/create";
+import { Edit as EditAsistencia } from "./features/asistencias/pages/edit/edit";
+import { List as ListDocumentos } from "./features/documentos/pages/list/list";
+import { Create as CreateDocumento } from "./features/documentos/pages/create/create";
+import { Edit as EditDocumento } from "./features/documentos/pages/edit/edit";
 
 export const routes: Routes = [
   { path: "auth/login", component: Login },
@@ -31,6 +37,12 @@ export const routes: Routes = [
       { path: "cargos", component: ListCargos },
       { path: "turnos", component: ListTurnos },
       { path: "semanas", component: ListSemanas },
+      { path: "asistencias", component: ListAsistencias },
+      { path: "asistencias/crear", component: CreateAsistencia },
+      { path: "asistencias/:id/editar", component: EditAsistencia },
+      { path: "documentos", component: ListDocumentos },
+      { path: "documentos/crear", component: CreateDocumento },
+      { path: "documentos/:id/editar", component: EditDocumento },
       { path: "pagos", component: ListPagos },
       { path: "planillas", component: ListPlanillas },
       { path: "planillas/:id", component: DetailPlanilla },
